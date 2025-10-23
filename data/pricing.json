@@ -1,0 +1,53 @@
+[
+  {
+    "tier": "Starter",
+    "price": 2500,
+    "period": "month",
+    "description": "Perfect for small businesses getting started",
+    "features": [
+      "Up to 3 projects per month",
+      "Frontend or Backend development",
+      "Basic support (email)",
+      "2 revision rounds",
+      "Monthly progress reports",
+      "Source code included"
+    ],
+    "popular": false
+  },
+  {
+    "tier": "Growth",
+    "price": 5000,
+    "period": "month",
+    "description": "Ideal for growing businesses",
+    "features": [
+      "Up to 6 projects per month",
+      "Full-stack development",
+      "Priority support (phone & email)",
+      "Unlimited revisions",
+      "Weekly progress reports",
+      "Source code + documentation",
+      "Data analytics included",
+      "Automation consulting"
+    ],
+    "popular": true
+  },
+  {
+    "tier": "Enterprise",
+    "price": null,
+    "period": "custom",
+    "description": "For large organizations with complex needs",
+    "features": [
+      "Unlimited projects",
+      "Dedicated team of specialists",
+      "24/7 premium support",
+      "Unlimited revisions",
+      "Daily progress updates",
+      "Complete documentation",
+      "All services included",
+      "Custom SLA agreements",
+      "On-site consultations",
+      "Training & workshops"
+    ],
+    "popular": false
+  }
+]

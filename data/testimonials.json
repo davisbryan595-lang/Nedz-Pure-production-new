@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Sarah Johnson",
+    "role": "CEO, TechStart Inc.",
+    "avatar": "/placeholder.svg?height=100&width=100",
+    "rating": 5,
+    "text": "Nedzpur Production transformed our entire IT infrastructure. Their expertise in backend development and automation saved us countless hours and significantly improved our efficiency."
+  },
+  {
+    "name": "Michael Chen",
+    "role": "CTO, DataFlow Solutions",
+    "avatar": "/placeholder.svg?height=100&width=100",
+    "rating": 5,
+    "text": "Outstanding data analytics services! They helped us unlock insights we never knew existed in our data. The team is professional, responsive, and truly understands business needs."
+  },
+  {
+    "name": "Emily Rodriguez",
+    "role": "Product Manager, CloudSync",
+    "avatar": "/placeholder.svg?height=100&width=100",
+    "rating": 5,
+    "text": "The frontend development work exceeded our expectations. Beautiful, responsive, and performant. Our users love the new interface!"
+  },
+  {
+    "name": "David Thompson",
+    "role": "Founder, StartupHub",
+    "avatar": "/placeholder.svg?height=100&width=100",
+    "rating": 5,
+    "text": "From concept to deployment, Nedzpur Production was with us every step of the way. Their full-stack expertise is unmatched in Suffolk County."
+  },
+  {
+    "name": "Lisa Wang",
+    "role": "Director of IT, MedTech Corp",
+    "avatar": "/placeholder.svg?height=100&width=100",
+    "rating": 5,
+    "text": "Their software testing services caught critical issues before launch. The attention to detail and thoroughness is impressive. Highly recommend!"
+  },
+  {
+    "name": "James Martinez",
+    "role": "VP Engineering, FinanceFlow",
+    "avatar": "/placeholder.svg?height=100&width=100",
+    "rating": 5,
+    "text": "Exceptional engineering team! They designed and implemented a scalable architecture that has supported our 10x growth over the past year."
+  }
+]
