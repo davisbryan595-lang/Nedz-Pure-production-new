@@ -15,7 +15,7 @@ const pricingTiers = [
     features: [
       "Up to 3 projects per month",
       "Frontend or Backend development",
-      "Basic support (email: nedzpur@gmail.com)",
+      "Basic support (email)",
       "2 revision rounds",
       "Monthly progress reports",
       "Source code included",
@@ -31,7 +31,7 @@ const pricingTiers = [
     features: [
       "Up to 6 projects per month",
       "Full-stack development",
-      "Priority support (phone & email: nedzpur@gmail.com)",
+      "Priority support (phone & email)",
       "Unlimited revisions",
       "Weekly progress reports",
       "Source code + documentation",

@@ -39,7 +39,7 @@ export default function Navbar() {
       ([entry]) => {
         setScrolledPastHero(!entry.isIntersecting)
       },
-      { threshold: 0.1 },
+      { threshold: 0.1 }
     )
 
     observer.observe(hero)
@@ -49,14 +49,16 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? "glass shadow-lg backdrop-blur-md bg-white/80 border-b border-gray-200" : "bg-transparent"
+        isScrolled
+          ? "glass shadow-lg backdrop-blur-md bg-white/80 border-b border-gray-200"
+          : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-32">
+        <div className="flex items-center justify-between h-24">
           {/* Logo */}
           <Link href="#home" className="flex items-center space-x-3">
-            <div className="relative w-80 h-28">
+            <div className="relative w-64 h-20">
               <Image
                 src="/nedzlogo.png"
                 alt="Nedzpur Production Logo"
@@ -106,7 +108,9 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <button
-            className={`lg:hidden p-2 transition-colors ${scrolledPastHero ? "text-black" : "text-white"}`}
+            className={`lg:hidden p-2 transition-colors ${
+              scrolledPastHero ? "text-black" : "text-white"
+            }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >

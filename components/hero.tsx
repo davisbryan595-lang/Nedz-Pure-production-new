@@ -1,10 +1,9 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, MapPin } from "lucide-react"
-import { Counter } from "@/components/counter"
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -15,6 +14,14 @@ export default function Hero() {
 
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0])
+  const [showVideo, setShowVideo] = useState(false)
+  useEffect(() => {
+    fetch('/hero-video.mp4', { method: 'HEAD' })
+      .then((res) => {
+        if (res.ok) setShowVideo(true)
+      })
+      .catch(() => {})
+  }, [])
 
   return (
     <section
@@ -25,16 +32,25 @@ export default function Hero() {
       {/* Background Video/Image with Parallax */}
       <motion.div style={{ y }} className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-[#ADD8E6]/20 via-transparent to-[#FFD700]/12 z-10" />
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover"
-          poster="/modern-tech-dashboard-animation.jpg"
-        >
-          <source src="/hero-video.mp4" type="video/mp4" />
-        </video>
+        {showVideo ? (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            onError={() => setShowVideo(false)}
+            className="w-full h-full object-cover"
+            poster="/modern-tech-dashboard-animation.jpg"
+          >
+            <source src="/hero-video.mp4" type="video/mp4" />
+          </video>
+        ) : (
+          <img
+            src="/modern-tech-dashboard-animation.jpg"
+            alt="Technology dashboard background"
+            className="w-full h-full object-cover"
+          />
+        )}
         <div className="absolute inset-0 bg-black/40 z-10" />
       </motion.div>
 
@@ -61,8 +77,7 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
           className="inline-flex items-center space-x-2 glass px-4 py-2 rounded-full mb-8"
         >
-          <MapPin className="h-4 w-4 text-[#FFA500]" />
-          <span className="text-sm font-medium">Suffolk County, Long Island</span>
+          
         </motion.div>
 
         {/* Main Headline */}
@@ -114,16 +129,24 @@ export default function Hero() {
           </Button>
         </motion.div>
 
+        {/* Stats Counter */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-4xl mx-auto px-2"
+          className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
         >
-          <Counter end={500} label="Projects Completed" suffix="+" />
-          <Counter end={98} label="Client Satisfaction" suffix="%" />
-          <Counter end={50} label="Team Members" suffix="+" />
-          <Counter end={10} label="Years Experience" suffix="+" />
+          {[
+            { number: "500+", label: "Projects Completed" },
+            { number: "98%", label: "Client Satisfaction" },
+            { number: "50+", label: "Team Members" },
+            { number: "10+", label: "Years Experience" },
+          ].map((stat, index) => (
+            <div key={index} className="glass p-6 rounded-2xl">
+              <div className="text-3xl md:text-4xl font-bold gradient-text mb-2">{stat.number}</div>
+              <div className="text-sm text-white/80">{stat.label}</div>
+            </div>
+          ))}
         </motion.div>
       </motion.div>
 

@@ -1,9 +1,11 @@
 "use client"
 
-import { useRef, useState, useEffect } from "react"
+import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
-import { Star, ChevronLeft, ChevronRight } from "lucide-react"
+import { Star } from "lucide-react"
+import useEmblaCarousel from "embla-carousel-react"
+import Autoplay from "embla-carousel-autoplay"
 
 const testimonials = [
   {
@@ -53,22 +55,10 @@ const testimonials = [
 export default function Testimonials() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
-  const [currentIndex, setCurrentIndex] = useState(0)
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length)
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [])
-
-  const goToPrevious = () => {
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)
-  }
-
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length)
-  }
+  const [emblaRef] = useEmblaCarousel({ loop: true, align: "start" }, [
+    Autoplay({ delay: 5000, stopOnInteraction: false }),
+  ])
 
   return (
     <section id="testimonials" className="py-24 bg-gradient-to-b from-muted/30 to-background">
@@ -88,83 +78,46 @@ export default function Testimonials() {
           </p>
         </motion.div>
 
-        {/* Carousel Container */}
-        <div className="max-w-4xl mx-auto">
-          <div className="relative">
-            {/* Testimonials Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {testimonials.map((testimonial, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={isInView ? { opacity: index === currentIndex ? 1 : 0.3, scale: 1 } : {}}
-                  transition={{ duration: 0.4 }}
-                  className={`${index === currentIndex ? "md:col-span-3" : "hidden md:block"}`}
-                >
-                  <Card className="h-full glass hover:shadow-xl transition-all duration-300">
-                    <CardContent className="p-8">
-                      {/* Rating */}
-                      <div className="flex gap-1 mb-4">
-                        {Array.from({ length: testimonial.rating }).map((_, i) => (
-                          <Star key={i} className="h-5 w-5 fill-[#FFD700] text-[#FFD700]" />
-                        ))}
-                      </div>
-
-                      {/* Quote */}
-                      <p className="text-muted-foreground mb-6 leading-relaxed text-balance">"{testimonial.text}"</p>
-
-                      {/* Author */}
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-full overflow-hidden bg-muted">
-                          <img
-                            src={testimonial.avatar || "/placeholder.svg"}
-                            alt={testimonial.name}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div>
-                          <div className="font-semibold">{testimonial.name}</div>
-                          <div className="text-sm text-muted-foreground">{testimonial.role}</div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Navigation Buttons */}
-            <div className="flex justify-center items-center gap-4 mt-8">
-              <button
-                onClick={goToPrevious}
-                className="p-2 rounded-full bg-[#FFA500] hover:bg-[#FF8C00] text-white transition-colors"
-                aria-label="Previous testimonial"
+        <div className="overflow-hidden" ref={emblaRef}>
+          <div className="flex gap-6">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0"
               >
-                <ChevronLeft className="h-6 w-6" />
-              </button>
+                <Card className="h-full glass hover:shadow-xl transition-all duration-300">
+                  <CardContent className="p-8">
+                    {/* Rating */}
+                    <div className="flex gap-1 mb-4">
+                      {Array.from({ length: testimonial.rating }).map((_, i) => (
+                        <Star key={i} className="h-5 w-5 fill-[#FFD700] text-[#FFD700]" />
+                      ))}
+                    </div>
 
-              {/* Dots */}
-              <div className="flex gap-2">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentIndex(index)}
-                    className={`h-2 rounded-full transition-all ${
-                      index === currentIndex ? "bg-[#FFA500] w-8" : "bg-muted-foreground w-2"
-                    }`}
-                    aria-label={`Go to testimonial ${index + 1}`}
-                  />
-                ))}
-              </div>
+                    {/* Quote */}
+                    <p className="text-muted-foreground mb-6 leading-relaxed text-balance">"{testimonial.text}"</p>
 
-              <button
-                onClick={goToNext}
-                className="p-2 rounded-full bg-[#FFA500] hover:bg-[#FF8C00] text-white transition-colors"
-                aria-label="Next testimonial"
-              >
-                <ChevronRight className="h-6 w-6" />
-              </button>
-            </div>
+                    {/* Author */}
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full overflow-hidden bg-muted">
+                        <img
+                          src={testimonial.avatar || "/placeholder.svg"}
+                          alt={testimonial.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div>
+                        <div className="font-semibold">{testimonial.name}</div>
+                        <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>

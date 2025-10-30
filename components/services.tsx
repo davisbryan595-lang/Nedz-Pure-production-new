@@ -55,6 +55,15 @@ const services = [
     price: "From $3,500",
     color: "#FFA500",
   },
+  {
+    icon: Cpu,
+    title: "AI Training",
+    description:
+      "Custom AI model training and fine-tuning: dataset preparation, model selection, hyperparameter tuning, evaluation, and deployment for real-world applications.",
+    duration: "4-12 weeks",
+    price: "From $12,000",
+    color: "#7C3AED",
+  },
 ]
 
 export default function Services() {

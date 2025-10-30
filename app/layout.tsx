@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: "Nedzpur Production | Full-Stack IT Services",
     description: "Visualization to the horizon. Premium IT services in Suffolk County, Long Island.",
   },
-  generator: "v0.app",
+    generator: 'v0.app'
 }
 
 export default function RootLayout({
@@ -57,8 +57,7 @@ export default function RootLayout({
               image: "/logo.png",
               "@id": "",
               url: "",
-              telephone: "+1(631) 664-6632",
-              email: "nedzpur@gmail.com",
+              telephone: "+16316646632",
               address: {
                 "@type": "PostalAddress",
                 streetAddress: "Suffolk County",

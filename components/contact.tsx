@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import { useRef, useState } from "react"
 import { motion, useInView } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,88 +8,58 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Phone, Mail, MapPin, MessageCircle, Loader2 } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
 import { useToast } from "@/hooks/use-toast"
+
+const contactSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Invalid email address"),
+  phone: z.string().min(10, "Phone number must be at least 10 digits"),
+  service: z.string().min(1, "Please select a service"),
+  date: z.string().optional(),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+})
+
+type ContactFormData = z.infer<typeof contactSchema>
 
 export default function Contact() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    service: "",
-    date: "",
-    message: "",
-  })
-  const [errors, setErrors] = useState<Record<string, string>>({})
   const { toast } = useToast()
 
-  const validateForm = () => {
-    const newErrors: Record<string, string> = {}
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+  })
 
-    if (!formData.name || formData.name.length < 2) {
-      newErrors.name = "Name must be at least 2 characters"
-    }
-    if (!formData.email || !formData.email.includes("@")) {
-      newErrors.email = "Invalid email address"
-    }
-    if (!formData.phone || formData.phone.length < 10) {
-      newErrors.phone = "Phone number must be at least 10 digits"
-    }
-    if (!formData.service) {
-      newErrors.service = "Please select a service"
-    }
-    if (!formData.message || formData.message.length < 10) {
-      newErrors.message = "Message must be at least 10 characters"
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { id, value } = e.target
-    setFormData((prev) => ({ ...prev, [id]: value }))
-    if (errors[id]) {
-      setErrors((prev) => ({ ...prev, [id]: "" }))
-    }
-  }
-
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (!validateForm()) {
-      return
-    }
-
+  const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true)
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
       })
 
       if (response.ok) {
         toast({
-          title: "Message sent!",
+          title: "✅ Message sent!",
           description: "We'll get back to you within 24 hours.",
         })
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          service: "",
-          date: "",
-          message: "",
-        })
+        reset()
       } else {
         throw new Error("Failed to send message")
       }
     } catch (error) {
       toast({
-        title: "Error",
+        title: "❌ Error",
         description: "Failed to send message. Please try again.",
         variant: "destructive",
       })
@@ -135,7 +103,7 @@ export default function Contact() {
               </CardHeader>
               <CardContent>
                 <a href="tel:+16316646632" className="text-lg hover:text-[#FFA500] transition-colors">
-                  +1(631) 664-6632
+                  631664-6632
                 </a>
               </CardContent>
             </Card>
@@ -149,7 +117,7 @@ export default function Contact() {
               </CardHeader>
               <CardContent>
                 <a
-                  href="https://wa.me/16316646632"
+                  href="https://wa.me/15550123"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-lg hover:text-[#90EE90] transition-colors"
@@ -167,8 +135,8 @@ export default function Contact() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <a href="mailto:nedzpur@gmail.com" className="text-lg hover:text-[#ADD8E6] transition-colors">
-                  nedzpur@gmail.com
+                <a href="mailto:contact@nedzpur.com" className="text-lg hover:text-[#ADD8E6] transition-colors">
+                  contact@nedzpur.com
                 </a>
               </CardContent>
             </Card>
@@ -202,18 +170,17 @@ export default function Contact() {
                 <CardTitle className="text-2xl">Send us a message</CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={onSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="name">Name *</Label>
                       <Input
                         id="name"
                         placeholder="John Doe"
-                        value={formData.name}
-                        onChange={handleChange}
+                        {...register("name")}
                         className={errors.name ? "border-destructive" : ""}
                       />
-                      {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
+                      {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
                     </div>
 
                     <div className="space-y-2">
@@ -222,11 +189,10 @@ export default function Contact() {
                         id="email"
                         type="email"
                         placeholder="john@example.com"
-                        value={formData.email}
-                        onChange={handleChange}
+                        {...register("email")}
                         className={errors.email ? "border-destructive" : ""}
                       />
-                      {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
+                      {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
                     </div>
                   </div>
 
@@ -237,19 +203,17 @@ export default function Contact() {
                         id="phone"
                         type="tel"
                         placeholder="+1 (555) 000-0000"
-                        value={formData.phone}
-                        onChange={handleChange}
+                        {...register("phone")}
                         className={errors.phone ? "border-destructive" : ""}
                       />
-                      {errors.phone && <p className="text-sm text-destructive">{errors.phone}</p>}
+                      {errors.phone && <p className="text-sm text-destructive">{errors.phone.message}</p>}
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="service">Service *</Label>
                       <select
                         id="service"
-                        value={formData.service}
-                        onChange={handleChange}
+                        {...register("service")}
                         className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${
                           errors.service ? "border-destructive" : ""
                         }`}
@@ -262,13 +226,13 @@ export default function Contact() {
                         <option value="analytics">Data Analytics</option>
                         <option value="testing">Software Testing</option>
                       </select>
-                      {errors.service && <p className="text-sm text-destructive">{errors.service}</p>}
+                      {errors.service && <p className="text-sm text-destructive">{errors.service.message}</p>}
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="date">Preferred Start Date</Label>
-                    <Input id="date" type="date" value={formData.date} onChange={handleChange} />
+                    <Input id="date" type="date" {...register("date")} />
                   </div>
 
                   <div className="space-y-2">
@@ -277,11 +241,10 @@ export default function Contact() {
                       id="message"
                       placeholder="Tell us about your project..."
                       rows={6}
-                      value={formData.message}
-                      onChange={handleChange}
+                      {...register("message")}
                       className={errors.message ? "border-destructive" : ""}
                     />
-                    {errors.message && <p className="text-sm text-destructive">{errors.message}</p>}
+                    {errors.message && <p className="text-sm text-destructive">{errors.message.message}</p>}
                   </div>
 
                   <Button
