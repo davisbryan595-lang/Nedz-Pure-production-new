@@ -8,7 +8,7 @@ export default function Mission() {
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto text-balance">
             We build reliable, scalable, and user-friendly software solutions that empower organizations to achieve
-            their goals. Our mission is to deliver exceptional engineering, clear communication, and measurable impact.
+            their goals. 
           </p>
         </div>
 
