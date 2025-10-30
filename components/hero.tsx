@@ -87,7 +87,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-balance leading-tight"
         >
-          <span className="gradient-text">Powering</span>
+          <span className="gradient-text animate-pulse-glow">Powering</span>
           <br />
           <span className="text-white">Unlimited Results</span>
         </motion.h1>
