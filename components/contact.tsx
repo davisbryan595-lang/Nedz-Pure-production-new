@@ -103,7 +103,7 @@ export default function Contact() {
               </CardHeader>
               <CardContent>
                 <a href="tel:+16316646632" className="text-lg hover:text-[#FFA500] transition-colors">
-                  631664-6632
+                  (631)664-6632
                 </a>
               </CardContent>
             </Card>

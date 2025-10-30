@@ -130,7 +130,7 @@ export default function Footer() {
                   href="tel:+16316646632"
                   className="hover:text-[#FFA500] transition-colors duration-300"
                 >
-                  631664-6632
+                  (631)664-6632
                 </a>
               </li>
               <li>
