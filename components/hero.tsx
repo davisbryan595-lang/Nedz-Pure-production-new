@@ -99,7 +99,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto text-balance"
         >
-          Full-stack IT services — Backend, Frontend, Data, Automation.
+          Nedzpur Product:  - Powering Unlimited Results
         </motion.p>
 
         {/* CTAs */}

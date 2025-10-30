@@ -16,18 +16,14 @@ export default function Mission() {
           <div className="glass p-8 rounded-2xl">
             <h3 className="text-2xl font-semibold mb-3">Mission</h3>
             <p className="text-muted-foreground leading-relaxed">
-              Our mission is to translate complex technical challenges into elegant, maintainable solutions. We
-              prioritize quality, accessibility, and long-term value by combining deep technical expertise with a
-              collaborative approach — ensuring every project we deliver drives real business outcomes.
+              Our mission is to empower businesses through innovative, reliable, and scalable IT solutions—bridging technology with strategy to help our clients thrive in a connected world.
             </p>
           </div>
 
           <div className="glass p-8 rounded-2xl">
             <h3 className="text-2xl font-semibold mb-3">Vision</h3>
             <p className="text-muted-foreground leading-relaxed">
-              We envision a future where intelligent systems augment human creativity and decision-making. By
-              responsibly integrating AI, automation, and data, we aim to help businesses become more efficient,
-              resilient, and customer-focused — while maintaining transparency and ethical use of technology.
+              Empower our communities through exceptional service, our vision is founded on two pillars:delivering outstanding service experiences for our clients and cultivating a lasting presence in the communities that we serve.
             </p>
           </div>
         </div>
