@@ -13,7 +13,7 @@ export default function Footer() {
               <Image
                 src="/nedzlogo.png"
                 alt="Nedzpur Production"
-                width={450}
+                width={450} // 3x bigger
                 height={150}
                 className="h-28 w-auto object-contain"
                 priority
@@ -126,13 +126,19 @@ export default function Footer() {
               <li>Suffolk County</li>
               <li>Long Island, NY 11733</li>
               <li>
-                <a href="tel:+16316646632" className="hover:text-[#FFA500] transition-colors duration-300">
-                  +1(631) 664-6632
+                <a
+                  href="tel:+16316646632"
+                  className="hover:text-[#FFA500] transition-colors duration-300"
+                >
+                  631664-6632
                 </a>
               </li>
               <li>
-                <a href="mailto:nedzpur@gmail.com" className="hover:text-[#FFA500] transition-colors duration-300">
-                  nedzpur@gmail.com
+                <a
+                  href="mailto:contact@nedzpur.com"
+                  className="hover:text-[#FFA500] transition-colors duration-300"
+                >
+                  contact@nedzpur.com
                 </a>
               </li>
               <li className="pt-2 leading-relaxed">
