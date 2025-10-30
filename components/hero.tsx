@@ -87,9 +87,9 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-balance leading-tight"
         >
-          <span className="gradient-text">Visualization</span>
+          <span className="gradient-text">Powering</span>
           <br />
-          <span className="text-white">to the horizon</span>
+          <span className="text-white">Unlimited Results</span>
         </motion.h1>
 
         {/* Subheadline */}
@@ -99,7 +99,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto text-balance"
         >
-          Nedzpur Product:  - Powering Unlimited Results
+          Full-stack IT services — Backend, Frontend, Data, Automation.
         </motion.p>
 
         {/* CTAs */}
