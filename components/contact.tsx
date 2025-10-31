@@ -128,8 +128,8 @@ export default function Contact() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <a href="mailto:contact@nedzpur.com" className="text-lg hover:text-[#ADD8E6] transition-colors">
-                  contact@nedzpur.com
+                <a href="mailto:info@nedzpurproduction.com" className="text-lg hover:text-[#ADD8E6] transition-colors">
+                  info@nedzpurproduction.com
                 </a>
               </CardContent>
             </Card>
