@@ -39,33 +39,26 @@ export default function Contact() {
     resolver: zodResolver(contactSchema),
   })
 
+  // Optional: Handle client-side success/error if FormSubmit redirects back
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true)
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
 
-      if (response.ok) {
-        toast({
-          title: "✅ Message sent!",
-          description: "We'll get back to you within 24 hours.",
-        })
-        reset()
-      } else {
-        throw new Error("Failed to send message")
-      }
-    } catch (error) {
-      toast({
-        title: "❌ Error",
-        description: "Failed to send message. Please try again.",
-        variant: "destructive",
-      })
-    } finally {
-      setIsSubmitting(false)
+    // FormSubmit will handle the actual submission via the form `action`
+    // We just trigger the native submit for UX
+    const form = document.getElementById("contact-form") as HTMLFormElement
+    if (form) {
+      form.requestSubmit()
     }
+
+    // Simulate success after short delay (FormSubmit redirects)
+    setTimeout(() => {
+      toast({
+        title: "Message Sent!",
+        description: "We'll get back to you within 24 hours.",
+      })
+      reset()
+      setIsSubmitting(false)
+    }, 800)
   }
 
   return (
@@ -103,7 +96,7 @@ export default function Contact() {
               </CardHeader>
               <CardContent>
                 <a href="tel:+16316646632" className="text-lg hover:text-[#FFA500] transition-colors">
-                  (631)664-6632
+                  (631) 664-6632
                 </a>
               </CardContent>
             </Card>
@@ -117,7 +110,7 @@ export default function Contact() {
               </CardHeader>
               <CardContent>
                 <a
-                  href="https://wa.me/15550123"
+                  href="https://wa.me/16316646632"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-lg hover:text-[#90EE90] transition-colors"
@@ -170,7 +163,21 @@ export default function Contact() {
                 <CardTitle className="text-2xl">Send us a message</CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                <form
+                  id="contact-form"
+                  action="https://formsubmit.co/info@nedzpurproduction.com"
+                  method="POST"
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="space-y-6"
+                >
+                  {/* Hidden FormSubmit Fields */}
+                  <input type="hidden" name="_email.to" value="info@nedzpurproduction.com" />
+                  <input type="hidden" name="_subject" value="New Contact Form Submission - Nedzpur Production" />
+                  <input type="hidden" name="_captcha" value="false" />
+                  <input type="hidden" name="_next" value={typeof window !== "undefined" ? window.location.href : ""} />
+                  <input type="hidden" name="_template" value="table" />
+
+                  {/* Visible Fields */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="name">Name *</Label>
@@ -225,6 +232,7 @@ export default function Contact() {
                         <option value="automation">Automation</option>
                         <option value="analytics">Data Analytics</option>
                         <option value="testing">Software Testing</option>
+                        <option value="ai">AI Training</option>
                       </select>
                       {errors.service && <p className="text-sm text-destructive">{errors.service.message}</p>}
                     </div>
