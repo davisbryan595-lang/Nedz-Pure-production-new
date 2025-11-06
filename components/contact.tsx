@@ -95,8 +95,8 @@ export default function Contact() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <a href="tel:+16316646632" className="text-lg hover:text-[#FFA500] transition-colors">
-                  (631) 664-6632
+                <a href="tel:+16468017018" className="text-lg hover:text-[#FFA500] transition-colors">
+                  +1 646-801-7018
                 </a>
               </CardContent>
             </Card>
@@ -110,7 +110,7 @@ export default function Contact() {
               </CardHeader>
               <CardContent>
                 <a
-                  href="https://wa.me/16316646632"
+                  href="https://wa.me/16468017018"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-lg hover:text-[#90EE90] transition-colors"
@@ -209,7 +209,7 @@ export default function Contact() {
                       <Input
                         id="phone"
                         type="tel"
-                        placeholder="+1 (555) 000-0000"
+                        placeholder="+1 646-801-7018"
                         {...register("phone")}
                         className={errors.phone ? "border-destructive" : ""}
                       />
