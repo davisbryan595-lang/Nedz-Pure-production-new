@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 export default function WhatsAppFloatingButton() {
   return (
     <motion.a
-      href="https://wa.me/16316646632"
+      href="https://wa.me/16468017018"
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-8 right-8 z-40 flex items-center justify-center w-14 h-14 bg-[#25D366] hover:bg-[#20BA5A] rounded-full shadow-lg transition-all duration-300 hover:scale-110"

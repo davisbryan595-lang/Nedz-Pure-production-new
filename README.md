@@ -144,7 +144,7 @@ This is a demo project for Nedzpur Production. All rights reserved.
 
 For questions or support, contact:
 - Email: contact@nedzpur.com
-- Phone: +1 (631) 664-6632
+- Phone: +1 646-801-7018
 - Location: Suffolk County, Long Island, NY
 
 ---

@@ -99,7 +99,7 @@ export default function Navbar() {
                   : "bg-[#FFA500] hover:bg-[#FF8C00] text-white animate-pulse-glow shadow-[0_0_12px_rgba(255,165,0,0.6)]"
               }`}
             >
-              <a href="tel:+16316646632">
+              <a href="tel:+16468017018">
                 <Phone className="mr-2 h-4 w-4" />
                 Call Now
               </a>
@@ -147,7 +147,7 @@ export default function Navbar() {
                   : "bg-[#FFA500] hover:bg-[#FF8C00] text-white"
               }`}
             >
-              <a href="tel:+16316646632">
+              <a href="tel:+16468017018">
                 <Phone className="mr-2 h-4 w-4" />
                 Call Now
               </a>

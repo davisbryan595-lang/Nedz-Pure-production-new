@@ -57,7 +57,7 @@ export default function RootLayout({
               image: "/logo.png",
               "@id": "",
               url: "",
-              telephone: "+16316646632",
+              telephone: "+16468017018",
               address: {
                 "@type": "PostalAddress",
                 streetAddress: "Suffolk County",
