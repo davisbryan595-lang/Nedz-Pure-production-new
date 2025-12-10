@@ -14,14 +14,7 @@ export default function Hero() {
 
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0])
-  const [showVideo, setShowVideo] = useState(false)
-  useEffect(() => {
-    fetch('/hero-video.mp4', { method: 'HEAD' })
-      .then((res) => {
-        if (res.ok) setShowVideo(true)
-      })
-      .catch(() => {})
-  }, [])
+  const [showVideo] = useState(false)
 
   return (
     <section
