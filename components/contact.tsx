@@ -43,22 +43,41 @@ export default function Contact() {
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true)
 
-    // FormSubmit will handle the actual submission via the form `action`
-    // We just trigger the native submit for UX
-    const form = document.getElementById("contact-form") as HTMLFormElement
-    if (form) {
-      form.requestSubmit()
-    }
-
-    // Simulate success after short delay (FormSubmit redirects)
-    setTimeout(() => {
-      toast({
-        title: "Message Sent!",
-        description: "We'll get back to you within 24 hours.",
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(data),
       })
-      reset()
+
+      const result = await response.json()
+
+      if (result.ok) {
+        toast({
+          title: "Message Sent!",
+          description: "We'll get back to you within 24 hours.",
+        })
+        reset()
+      } else {
+        toast({
+          title: "Error",
+          description: result.error || "Failed to send message. Please try again.",
+          variant: "destructive",
+        })
+      }
+    } catch (error) {
+      console.error("Form submission error:", error)
+      toast({
+        title: "Error",
+        description: "Network error. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
       setIsSubmitting(false)
-    }, 800)
+    }
   }
 
   return (
