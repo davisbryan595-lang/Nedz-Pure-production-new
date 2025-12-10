@@ -51,17 +51,18 @@ export default function Contact() {
         body: JSON.stringify(data),
       })
 
-      if (response.ok) {
+      const result = await response.json()
+
+      if (result.status === "success") {
         toast({
           title: "Message Sent!",
           description: "We'll get back to you within 24 hours.",
         })
         reset()
       } else {
-        const error = await response.json()
         toast({
           title: "Error",
-          description: error.error || "Failed to send message",
+          description: result.message || "Failed to send message",
           variant: "destructive",
         })
       }
