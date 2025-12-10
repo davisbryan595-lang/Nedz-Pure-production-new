@@ -17,8 +17,13 @@ export async function POST(request: Request) {
     // Validate input
     const validatedData = contactSchema.parse(body)
 
-    // SilentForms access key
-    const accessKey = "b65daedb4eaabc597eb293f707e7aa5d6b3be0a1c56c58ec25c7802c9da92990"
+    // SilentForms access key from environment variable
+    const accessKey = process.env.SILENTFORMS_ACCESS_KEY
+
+    if (!accessKey) {
+      console.error("[Contact] Missing SilentForms access key")
+      return NextResponse.json({ ok: false, error: "Server configuration error" }, { status: 500 })
+    }
 
     // Prepare data for SilentForms
     const silentFormsData = {
@@ -44,8 +49,12 @@ export async function POST(request: Request) {
     const result = await response.json()
 
     if (!response.ok) {
-      console.error("[Contact] SilentForms error:", result)
-      return NextResponse.json({ ok: false, error: "Failed to send message" }, { status: response.status })
+      console.error("[Contact] SilentForms error:", {
+        status: response.status,
+        statusText: response.statusText,
+        result,
+      })
+      return NextResponse.json({ ok: false, error: "Failed to send message" }, { status: 500 })
     }
 
     console.log("[Contact] Form submitted successfully:", {
