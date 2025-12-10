@@ -184,17 +184,9 @@ export default function Contact() {
               <CardContent>
                 <form
                   id="contact-form"
-                  action="https://formsubmit.co/info@nedzpurproduction.com"
-                  method="POST"
                   onSubmit={handleSubmit(onSubmit)}
                   className="space-y-6"
                 >
-                  {/* Hidden FormSubmit Fields */}
-                  <input type="hidden" name="_email.to" value="info@nedzpurproduction.com" />
-                  <input type="hidden" name="_subject" value="New Contact Form Submission - Nedzpur Production" />
-                  <input type="hidden" name="_captcha" value="false" />
-                  <input type="hidden" name="_next" value={typeof window !== "undefined" ? window.location.href : ""} />
-                  <input type="hidden" name="_template" value="table" />
 
                   {/* Visible Fields */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
