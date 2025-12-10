@@ -39,7 +39,6 @@ export default function Contact() {
     resolver: zodResolver(contactSchema),
   })
 
-  // Optional: Handle client-side success/error if FormSubmit redirects back
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true)
 
@@ -48,14 +47,13 @@ export default function Contact() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
         },
         body: JSON.stringify(data),
       })
 
       const result = await response.json()
 
-      if (result.ok) {
+      if (result.status === "success") {
         toast({
           title: "Message Sent!",
           description: "We'll get back to you within 24 hours.",
@@ -64,15 +62,15 @@ export default function Contact() {
       } else {
         toast({
           title: "Error",
-          description: result.error || "Failed to send message. Please try again.",
+          description: result.message || "Failed to send message",
           variant: "destructive",
         })
       }
     } catch (error) {
-      console.error("Form submission error:", error)
+      console.error("Contact form error:", error)
       toast({
         title: "Error",
-        description: "Network error. Please try again.",
+        description: "Failed to send message. Please try again.",
         variant: "destructive",
       })
     } finally {

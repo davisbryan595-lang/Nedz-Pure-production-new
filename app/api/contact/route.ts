@@ -1,39 +1,25 @@
 import { NextResponse } from "next/server"
-import { z } from "zod"
 
-const contactSchema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
-  phone: z.string().min(10),
-  service: z.string().min(1),
-  date: z.string().optional(),
-  message: z.string().min(10),
-})
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+}
+
+export async function OPTIONS() {
+  return NextResponse.json({}, { headers: corsHeaders })
+}
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
 
-    // Validate input
-    const validatedData = contactSchema.parse(body)
-
-    // SilentForms access key from environment variable
     const accessKey = process.env.SILENTFORMS_ACCESS_KEY
 
-    if (!accessKey) {
-      console.error("[Contact] Missing SilentForms access key")
-      return NextResponse.json({ ok: false, error: "Server configuration error" }, { status: 500 })
-    }
-
-    // Prepare data for SilentForms
+    // Prepare data for SilentForms with access key
     const silentFormsData = {
       accessKey,
-      name: validatedData.name,
-      email: validatedData.email,
-      phone: validatedData.phone,
-      service: validatedData.service,
-      date: validatedData.date || "",
-      message: validatedData.message,
+      ...body,
     }
 
     // Submit to SilentForms
@@ -48,28 +34,15 @@ export async function POST(request: Request) {
 
     const result = await response.json()
 
-    if (!response.ok) {
-      console.error("[Contact] SilentForms error:", {
-        status: response.status,
-        statusText: response.statusText,
-        result,
-      })
-      return NextResponse.json({ ok: false, error: "Failed to send message" }, { status: 500 })
+    if (result.status === "success") {
+      console.log("[Contact] Form submitted successfully")
+      return NextResponse.json({ status: "success", message: "Message sent successfully" }, { headers: corsHeaders })
+    } else {
+      console.error("[Contact] SilentForms error:", result)
+      return NextResponse.json({ status: "error", message: result.message || "Failed to send message" }, { status: 400, headers: corsHeaders })
     }
-
-    console.log("[Contact] Form submitted successfully:", {
-      timestamp: new Date().toISOString(),
-      ...validatedData,
-    })
-
-    return NextResponse.json({ ok: true, message: "Message sent successfully" })
   } catch (error) {
     console.error("[Contact] Form error:", error)
-
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ ok: false, error: "Invalid form data", details: error.errors }, { status: 400 })
-    }
-
-    return NextResponse.json({ ok: false, error: "Failed to send message" }, { status: 500 })
+    return NextResponse.json({ status: "error", message: "Failed to send message" }, { status: 500, headers: corsHeaders })
   }
 }
