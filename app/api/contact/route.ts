@@ -10,6 +10,16 @@ const contactSchema = z.object({
   message: z.string().min(10),
 })
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+}
+
+export async function OPTIONS() {
+  return NextResponse.json({}, { headers: corsHeaders })
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json()
@@ -32,14 +42,14 @@ export async function POST(request: Request) {
     // const apiKey = process.env.MAILGUN_API_KEY
     // const domain = process.env.MAILGUN_DOMAIN
 
-    return NextResponse.json({ ok: true, message: "Message sent successfully" })
+    return NextResponse.json({ ok: true, message: "Message sent successfully" }, { headers: corsHeaders })
   } catch (error) {
     console.error("[v0] Contact form error:", error)
 
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ ok: false, error: "Invalid form data", details: error.errors }, { status: 400 })
+      return NextResponse.json({ ok: false, error: "Invalid form data", details: error.errors }, { status: 400, headers: corsHeaders })
     }
 
-    return NextResponse.json({ ok: false, error: "Failed to send message" }, { status: 500 })
+    return NextResponse.json({ ok: false, error: "Failed to send message" }, { status: 500, headers: corsHeaders })
   }
 }

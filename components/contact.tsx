@@ -39,26 +39,42 @@ export default function Contact() {
     resolver: zodResolver(contactSchema),
   })
 
-  // Optional: Handle client-side success/error if FormSubmit redirects back
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true)
 
-    // FormSubmit will handle the actual submission via the form `action`
-    // We just trigger the native submit for UX
-    const form = document.getElementById("contact-form") as HTMLFormElement
-    if (form) {
-      form.requestSubmit()
-    }
-
-    // Simulate success after short delay (FormSubmit redirects)
-    setTimeout(() => {
-      toast({
-        title: "Message Sent!",
-        description: "We'll get back to you within 24 hours.",
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       })
-      reset()
+
+      if (response.ok) {
+        toast({
+          title: "Message Sent!",
+          description: "We'll get back to you within 24 hours.",
+        })
+        reset()
+      } else {
+        const error = await response.json()
+        toast({
+          title: "Error",
+          description: error.error || "Failed to send message",
+          variant: "destructive",
+        })
+      }
+    } catch (error) {
+      console.error("Contact form error:", error)
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
       setIsSubmitting(false)
-    }, 800)
+    }
   }
 
   return (
@@ -165,17 +181,9 @@ export default function Contact() {
               <CardContent>
                 <form
                   id="contact-form"
-                  action="https://formsubmit.co/info@nedzpurproduction.com"
-                  method="POST"
                   onSubmit={handleSubmit(onSubmit)}
                   className="space-y-6"
                 >
-                  {/* Hidden FormSubmit Fields */}
-                  <input type="hidden" name="_email.to" value="info@nedzpurproduction.com" />
-                  <input type="hidden" name="_subject" value="New Contact Form Submission - Nedzpur Production" />
-                  <input type="hidden" name="_captcha" value="false" />
-                  <input type="hidden" name="_next" value={typeof window !== "undefined" ? window.location.href : ""} />
-                  <input type="hidden" name="_template" value="table" />
 
                   {/* Visible Fields */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
