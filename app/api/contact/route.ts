@@ -16,19 +16,22 @@ export async function POST(request: Request) {
 
     const accessKey = "32a21268-2ed0-4e2e-83b1-5123ffcc47e1"
 
-    // Prepare FormData for Web3Forms
-    const formData = new FormData()
-    formData.append("access_key", accessKey)
+    // Prepare URLSearchParams for Web3Forms
+    const params = new URLSearchParams()
+    params.append("access_key", accessKey)
 
     // Append all form fields
     Object.entries(body).forEach(([key, value]) => {
-      formData.append(key, String(value))
+      params.append(key, String(value))
     })
 
     // Submit to Web3Forms
     const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
-      body: formData,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params.toString(),
     })
 
     const result = await response.json()
