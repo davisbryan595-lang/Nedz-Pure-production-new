@@ -14,31 +14,30 @@ export async function POST(request: Request) {
   try {
     const body = await request.json()
 
-    const accessKey = process.env.SILENTFORMS_ACCESS_KEY
+    const accessKey = "32a21268-2ed0-4e2e-83b1-5123ffcc47e1"
 
-    // Prepare data for SilentForms with access key
-    const silentFormsData = {
-      accessKey,
-      ...body,
-    }
+    // Prepare FormData for Web3Forms
+    const formData = new FormData()
+    formData.append("access_key", accessKey)
 
-    // Submit to SilentForms
-    const response = await fetch("https://api.silentforms.com/api/form/submit", {
+    // Append all form fields
+    Object.entries(body).forEach(([key, value]) => {
+      formData.append(key, String(value))
+    })
+
+    // Submit to Web3Forms
+    const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(silentFormsData),
+      body: formData,
     })
 
     const result = await response.json()
 
-    if (result.status === "success") {
-      console.log("[Contact] Form submitted successfully")
+    if (result.success) {
+      console.log("[Contact] Form submitted successfully to Web3Forms")
       return NextResponse.json({ status: "success", message: "Message sent successfully" }, { headers: corsHeaders })
     } else {
-      console.error("[Contact] SilentForms error:", result)
+      console.error("[Contact] Web3Forms error:", result)
       return NextResponse.json({ status: "error", message: result.message || "Failed to send message" }, { status: 400, headers: corsHeaders })
     }
   } catch (error) {
