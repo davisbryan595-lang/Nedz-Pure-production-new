@@ -34,7 +34,16 @@ export async function POST(request: Request) {
       body: params.toString(),
     })
 
-    const result = await response.json()
+    const responseText = await response.text()
+    console.log("[Contact] Web3Forms response:", responseText)
+
+    let result
+    try {
+      result = JSON.parse(responseText)
+    } catch (e) {
+      console.error("[Contact] Failed to parse Web3Forms response as JSON:", e)
+      return NextResponse.json({ status: "error", message: "Invalid response from submission service" }, { status: 500, headers: corsHeaders })
+    }
 
     if (result.success) {
       console.log("[Contact] Form submitted successfully to Web3Forms")
