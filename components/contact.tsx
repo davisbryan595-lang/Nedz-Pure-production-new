@@ -43,17 +43,26 @@ export default function Contact() {
     setIsSubmitting(true)
 
     try {
-      const response = await fetch("/api/contact", {
+      const formData = new FormData()
+      formData.append("access_key", "32a21268-2ed0-4e2e-83b1-5123ffcc47e1")
+      formData.append("name", data.name)
+      formData.append("email", data.email)
+      formData.append("phone", data.phone)
+      formData.append("service", data.service)
+      if (data.date) {
+        formData.append("date", data.date)
+      }
+      formData.append("message", data.message)
+      formData.append("subject", "New message from Nedzpur Production")
+
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+        body: formData,
       })
 
       const result = await response.json()
 
-      if (result.status === "success") {
+      if (result.success) {
         toast({
           title: "Message Sent!",
           description: "We'll get back to you within 24 hours.",
